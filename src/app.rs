@@ -1,9 +1,14 @@
+use egui::{DragValue, TextEdit};
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct TemplateApp {
     // Example stuff:
     label: String,
+    c: String,
+    f: String,
+    num_players: f32,
 
     #[serde(skip)] // This how you opt-out of serialization of a field
     value: f32,
@@ -14,6 +19,9 @@ impl Default for TemplateApp {
         Self {
             // Example stuff:
             label: "Hello World!".to_owned(),
+            c: "0".to_owned(),
+            f: "32".to_owned(),
+            num_players: 1.,
             value: 2.7,
         }
     }
@@ -64,6 +72,8 @@ impl eframe::App for TemplateApp {
             });
         });
 
+        let mut c_changed = false;
+        let mut f_changed = false;
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
             ui.heading("eframe template");
@@ -73,9 +83,45 @@ impl eframe::App for TemplateApp {
                 ui.text_edit_singleline(&mut self.label);
             });
 
+            ui.horizontal(|ui| {
+                c_changed = ui
+                    .add(
+                        TextEdit::singleline(&mut self.c)
+                            .horizontal_align(egui::Align::Max)
+                            .desired_width(50.),
+                    )
+                    .changed();
+                ui.label("° C");
+            });
+
+            ui.horizontal(|ui| {
+                f_changed = ui
+                    .add(
+                        TextEdit::singleline(&mut self.f)
+                            .horizontal_align(egui::Align::Max)
+                            .desired_width(50.),
+                    )
+                    .changed();
+                ui.label("° F");
+            });
+
             ui.add(egui::Slider::new(&mut self.value, 0.0..=10.0).text("value"));
             if ui.button("Increment").clicked() {
                 self.value += 1.0;
+            }
+
+            ui.horizontal(|ui| {
+                ui.label("How many players?");
+                ui.add(
+                    DragValue::new(&mut self.num_players)
+                        .clamp_range(1.0..=6.0)
+                        .speed(0.02)
+                        .max_decimals(0),
+                );
+            });
+
+            for i in 1..=self.num_players as usize {
+                ui.label(format!("Player {i}"));
             }
 
             ui.separator();
@@ -90,6 +136,18 @@ impl eframe::App for TemplateApp {
                 egui::warn_if_debug_build(ui);
             });
         });
+
+        // time to handle changes
+        if c_changed {
+            if let Ok(c) = self.c.parse::<f32>() {
+                self.f = (32. + c * 9. / 5.).to_string();
+            }
+        }
+        if f_changed {
+            if let Ok(f) = self.f.parse::<f32>() {
+                self.c = ((f - 32.) * 5. / 9.).to_string();
+            }
+        }
     }
 }
 
