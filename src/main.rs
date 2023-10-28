@@ -14,7 +14,7 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "Newspup",
         native_options,
-        Box::new(|cc| Box::new(newspup::TemplateApp::new(cc))),
+        Box::new(|cc| Box::new(newspup::NewspupApp::new(cc))),
     )
 }
 
@@ -31,7 +31,7 @@ fn main() {
             .start(
                 "the_canvas_id", // hardcode it
                 web_options,
-                Box::new(|cc| Box::new(newspup::TemplateApp::new(cc))),
+                Box::new(|cc| Box::new(newspup::NewspupApp::new(cc))),
             )
             .await
             .expect("failed to start eframe");
