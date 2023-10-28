@@ -1,20 +1,8 @@
+mod app_state;
+
+use app_state::{NewspupPage, Round};
 use egui::{CentralPanel, DragValue, Layout, TopBottomPanel};
 
-#[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone)]
-enum NewspupPage {
-    Start,
-    Scores(Round), // TODO: use an enum for the round, not a number
-    Timer,
-}
-
-#[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone)]
-enum Round {
-    Fri,
-    Sat,
-    Sun,
-}
-
-/// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct NewspupApp {
@@ -48,7 +36,6 @@ impl NewspupApp {
 }
 
 impl eframe::App for NewspupApp {
-    /// Called each time the UI needs repainting, which may be many times per second.
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         if self.page != NewspupPage::Start {
             TopBottomPanel::top("header").show(ctx, |ui| {
