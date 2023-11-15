@@ -1,7 +1,10 @@
 mod app_state;
+mod page_scores;
+mod page_start;
+mod page_timer;
 
 use app_state::{NewspupPage, Round};
-use egui::{CentralPanel, DragValue, Layout, TopBottomPanel};
+use egui::{CentralPanel, Layout, TopBottomPanel};
 
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
@@ -33,10 +36,20 @@ impl NewspupApp {
 
         Default::default()
     }
+
+    /// Choose which page to show based on `NewspupPage`
+    fn page_router(&mut self, ui: &mut egui::Ui) {
+        match self.page {
+            NewspupPage::Start => self.page_start(ui),
+            NewspupPage::Scores(round) => self.page_scores(round, ui),
+            NewspupPage::Timer => self.page_timer(ui),
+        }
+    }
 }
 
 impl eframe::App for NewspupApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        // header bar
         if self.page != NewspupPage::Start {
             TopBottomPanel::top("header").show(ctx, |ui| {
                 ui.horizontal(|ui| {
@@ -62,43 +75,9 @@ impl eframe::App for NewspupApp {
             });
         }
 
+        // main panel
         CentralPanel::default().show(ctx, |ui| {
-            match self.page {
-                NewspupPage::Start => {
-                    ui.heading("Newspup");
-
-                    ui.horizontal(|ui| {
-                        ui.label("How many players?");
-                        ui.add(
-                            DragValue::new(&mut self.num_players)
-                                .clamp_range(1.0..=6.0)
-                                .speed(0.02)
-                                .max_decimals(0),
-                        );
-                    });
-
-                    for i in 1..=self.num_players as usize {
-                        ui.label(format!("Player {i}"));
-                    }
-
-                    if ui.button("Start Game").clicked() {
-                        self.page = NewspupPage::Scores(Round::Fri);
-                    }
-                }
-                NewspupPage::Scores(round) => {
-                    let round = match round {
-                        Round::Fri => "Friday",
-                        Round::Sat => "Saturday",
-                        Round::Sun => "Sunday",
-                    };
-                    ui.label(format!("Round {round}"));
-                    ()
-                }
-                NewspupPage::Timer => {
-                    ui.label("Timer");
-                    ()
-                }
-            }
+            self.page_router(ui);
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 egui::warn_if_debug_build(ui);
