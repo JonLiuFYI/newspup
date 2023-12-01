@@ -1,4 +1,3 @@
-use egui;
 use egui::DragValue;
 
 use super::app_state::NewspupPage;
