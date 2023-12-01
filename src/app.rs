@@ -63,6 +63,9 @@ impl eframe::App for NewspupApp {
                         self.page = NewspupPage::Scores(Round::Sun);
                     }
 
+                    egui::warn_if_debug_build(ui);
+
+
                     ui.with_layout(Layout::right_to_left(egui::Align::Max), |ui| {
                         if ui.button("New").clicked() {
                             self.page = NewspupPage::Start;
@@ -78,10 +81,6 @@ impl eframe::App for NewspupApp {
         // main panel
         CentralPanel::default().show(ctx, |ui| {
             self.page_router(ui);
-
-            ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                egui::warn_if_debug_build(ui);
-            });
         });
     }
 
