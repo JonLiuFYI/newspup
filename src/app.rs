@@ -53,13 +53,13 @@ impl eframe::App for NewspupApp {
         if self.page != NewspupPage::Start {
             TopBottomPanel::top("header").show(ctx, |ui| {
                 ui.horizontal(|ui| {
-                    if ui.button("1 | Fri.").clicked() {
+                    if ui.button("Fri.").clicked() {
                         self.page = NewspupPage::Scores(Round::Fri);
                     }
-                    if ui.button("2 | Sat.").clicked() {
+                    if ui.button("Sat.").clicked() {
                         self.page = NewspupPage::Scores(Round::Sat);
                     }
-                    if ui.button("3 | Sun.").clicked() {
+                    if ui.button("Sun.").clicked() {
                         self.page = NewspupPage::Scores(Round::Sun);
                     }
 
@@ -70,7 +70,7 @@ impl eframe::App for NewspupApp {
                         if ui.button("New").clicked() {
                             self.page = NewspupPage::Start;
                         }
-                        if ui.button("Timer").clicked() {
+                        if ui.button("⏰ Timer").clicked() {
                             self.page = NewspupPage::Timer;
                         }
                     });
