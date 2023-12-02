@@ -16,9 +16,11 @@ impl NewspupApp {
                     .max_decimals(0),
             );
         });
+
         for i in 1..=self.num_players as usize {
             ui.label(format!("Player {i}"));
         }
+
         if ui.button("Start Game").clicked() {
             self.page = NewspupPage::Scores(Round::Fri);
         }

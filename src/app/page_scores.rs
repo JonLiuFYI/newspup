@@ -9,6 +9,5 @@ impl NewspupApp {
             Round::Sun => "Sunday",
         };
         ui.label(format!("Round {round}"));
-        // ()
     }
 }
