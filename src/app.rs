@@ -2,6 +2,7 @@ mod app_state;
 mod page_scores;
 mod page_start;
 mod page_timer;
+mod page_menu;
 
 use app_state::{NewspupPage, Round};
 use egui::{
@@ -87,6 +88,7 @@ impl NewspupApp {
             NewspupPage::Start => self.page_start(ui),
             NewspupPage::Scores(round) => self.page_scores(round, ui),
             NewspupPage::Timer => self.page_timer(ui),
+            NewspupPage::Menu => self.page_menu(ui),
         }
     }
 }
@@ -110,9 +112,10 @@ impl eframe::App for NewspupApp {
                     egui::warn_if_debug_build(ui);
 
                     ui.with_layout(Layout::right_to_left(egui::Align::Max), |ui| {
-                        if ui.button("New").clicked() {
-                            self.page = NewspupPage::Start;
+                        if ui.button("☰").clicked() {
+                            self.page = NewspupPage::Menu;
                         }
+                        
                         if ui.button("⏰ Timer").clicked() {
                             self.page = NewspupPage::Timer;
                         }
