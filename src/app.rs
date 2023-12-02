@@ -1,8 +1,8 @@
 mod app_state;
+mod page_menu;
 mod page_scores;
 mod page_start;
 mod page_timer;
-mod page_menu;
 
 use app_state::{NewspupPage, Round};
 use egui::{
@@ -99,26 +99,21 @@ impl eframe::App for NewspupApp {
         if self.page != NewspupPage::Start {
             TopBottomPanel::top("header").show(ctx, |ui| {
                 ui.horizontal(|ui| {
-                    if ui.button("Fri.").clicked() {
-                        self.page = NewspupPage::Scores(Round::Fri);
-                    }
-                    if ui.button("Sat.").clicked() {
-                        self.page = NewspupPage::Scores(Round::Sat);
-                    }
-                    if ui.button("Sun.").clicked() {
-                        self.page = NewspupPage::Scores(Round::Sun);
-                    }
+                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Fri), "Fri.");
+                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Sat), "Sat.");
+                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Sun), "Sun.");
 
-                    egui::warn_if_debug_build(ui);
+                    if cfg!(debug_assertions) {
+                        ui.label(
+                            egui::RichText::new("⚠dbg")
+                                .small()
+                                .color(ui.visuals().warn_fg_color),
+                        );
+                    }
 
                     ui.with_layout(Layout::right_to_left(egui::Align::Max), |ui| {
-                        if ui.button("☰").clicked() {
-                            self.page = NewspupPage::Menu;
-                        }
-                        
-                        if ui.button("⏰ Timer").clicked() {
-                            self.page = NewspupPage::Timer;
-                        }
+                        ui.selectable_value(&mut self.page, NewspupPage::Menu, "☰");
+                        ui.selectable_value(&mut self.page, NewspupPage::Timer, "⏰ Timer");
                     });
                 });
             });
