@@ -2,6 +2,7 @@ use egui::DragValue;
 
 use super::app_state::NewspupPage;
 use super::app_state::Round;
+use super::score_models::PlayerScore;
 use super::NewspupApp;
 
 impl NewspupApp {
@@ -22,6 +23,11 @@ impl NewspupApp {
         }
 
         if ui.button("Start Game").clicked() {
+            self.scores.clear();
+            for _ in 0..self.num_players as i32 {
+                self.scores.push(PlayerScore::default());
+            }
+
             self.page = NewspupPage::Scores(Round::Fri);
         }
     }
