@@ -1,6 +1,7 @@
 situation now:
-PoC of editing scores works (just DragValues controlling Friday articles)
-want to rework score model to use Round enum as key
+score model uses Round values as keys
+more ergonomic for handling editintg scores (see page_scores.rs)
+but implementation is ugly, since it uses HashMaps when I feel like a more appropriate option exists. Somehow map enum variants to struct fields?
 
-* prototype a scoreboard
+* make a scoreboard
 * player names

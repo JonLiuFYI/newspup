@@ -2,7 +2,8 @@ use egui::DragValue;
 
 use super::app_state::NewspupPage;
 use super::app_state::Round;
-use super::score_models::PlayerScore;
+use super::score_models::new_scores_table;
+use super::score_models::ScoreDay;
 use super::NewspupApp;
 
 impl NewspupApp {
@@ -23,9 +24,20 @@ impl NewspupApp {
         }
 
         if ui.button("Start Game").clicked() {
-            self.scores.clear();
+            self.scores = new_scores_table();
             for _ in 0..self.num_players as i32 {
-                self.scores.push(PlayerScore::default());
+                self.scores
+                    .get_mut(&Round::Fri)
+                    .expect("has Round key")
+                    .push(ScoreDay::default());
+                self.scores
+                    .get_mut(&Round::Sat)
+                    .expect("has Round key")
+                    .push(ScoreDay::default());
+                self.scores
+                    .get_mut(&Round::Sun)
+                    .expect("has Round key")
+                    .push(ScoreDay::default());
             }
 
             self.page = NewspupPage::Scores(Round::Fri);
