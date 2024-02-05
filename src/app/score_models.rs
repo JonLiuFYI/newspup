@@ -1,5 +1,7 @@
 //! Structs and impls for scorekeeping
 
+use std::ops::{Index, IndexMut};
+
 use super::app_state::Round;
 
 /// One day's worth of scores for one player, divided by category
@@ -29,9 +31,9 @@ pub struct ScoreColumn {
 /// ```
 #[derive(serde::Deserialize, serde::Serialize, PartialEq, Clone, Default, Debug)]
 pub struct Scoreboard {
-    pub fri: Vec<ScoreColumn>,
-    pub sat: Vec<ScoreColumn>,
-    pub sun: Vec<ScoreColumn>,
+    fri: Vec<ScoreColumn>,
+    sat: Vec<ScoreColumn>,
+    sun: Vec<ScoreColumn>,
 }
 
 impl Scoreboard {
@@ -42,6 +44,28 @@ impl Scoreboard {
             fri: vsc.clone(),
             sat: vsc.clone(),
             sun: vsc,
+        }
+    }
+}
+
+impl Index<Round> for Scoreboard {
+    type Output = Vec<ScoreColumn>;
+
+    fn index(&self, index: Round) -> &Self::Output {
+        match index {
+            Round::Fri => &self.fri,
+            Round::Sat => &self.sat,
+            Round::Sun => &self.sun,
+        }
+    }
+}
+
+impl IndexMut<Round> for Scoreboard {
+    fn index_mut(&mut self, index: Round) -> &mut Self::Output {
+        match index {
+            Round::Fri => &mut self.fri,
+            Round::Sat => &mut self.sat,
+            Round::Sun => &mut self.sun,
         }
     }
 }

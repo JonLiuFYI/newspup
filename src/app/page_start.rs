@@ -2,7 +2,6 @@ use egui::DragValue;
 
 use super::app_state::NewspupPage;
 use super::app_state::Round;
-use super::score_models::ScoreColumn;
 use super::score_models::Scoreboard;
 use super::NewspupApp;
 

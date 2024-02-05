@@ -8,7 +8,7 @@ pub(crate) enum NewspupPage {
 
 #[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Eq, Hash)]
 pub enum Round {
-    Fri = 0,
+    Fri,
     Sat,
     Sun,
 }

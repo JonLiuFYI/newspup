@@ -1,13 +1,9 @@
-Score model has been reworked to use a struct and not a HashMap. Now:
-
-* clean up code
-* make method to grab &mut vec of ScoreColumns
-* try refactoring Scoreboard to use tuple struct
-    * can the Round enum act as indexing key? maybe try impl'ing IndexMut
+Just finished: made score model a struct that's indexable with Round enum variants
 
 ---
 
 * player names
+* score input pages
 * score results page (so must have score calc logic)
 
 Scorecard sections: 📰📷🌟⛶😿❎💰🏆

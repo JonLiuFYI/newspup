@@ -10,7 +10,7 @@ use egui::{
     CentralPanel, FontData, FontDefinitions, FontFamily, FontId, Layout, TextStyle, TopBottomPanel,
 };
 
-use self::score_models::{ScoreColumn, Scoreboard};
+use self::score_models::Scoreboard;
 
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
@@ -90,7 +90,7 @@ impl NewspupApp {
             return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
         }
 
-        Default::default()
+        NewspupApp::default()
     }
 
     /// Choose which page to show based on `NewspupPage`
