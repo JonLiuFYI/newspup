@@ -1,44 +1,47 @@
 //! Structs and impls for scorekeeping
 
-use std::collections::HashMap;
-
 use super::app_state::Round;
 
 /// One day's worth of scores for one player, divided by category
 #[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Default, Debug)]
-pub struct ScoreDay {
-    pub articles: f32,
-    pub photos: f32,
-    pub centerpiece: f32,
-    pub whitespace: f32,
-    pub mood: f32,
-    pub leftovers: f32,
-    pub ads: f32,
+pub struct ScoreColumn {
+    pub article_pts: f32,
+    pub photo_pts: f32,
+    pub centerpiece_pts: f32,
+    /// This is the **number of squares** of the largest whitespace, **not** the points!
+    pub whitespace_size: f32,
+    pub mood_penalty: f32,
+    pub leftover_penalty: f32,
+    pub ad_dollars: f32,
 }
 
-// /// Full-game (all three rounds) score table for one player
-// #[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Default, Debug)]
-// pub struct PlayerScore {
-//     pub fri: ScoreDay,
-//     pub sat: ScoreDay,
-//     pub sun: ScoreDay,
-// }
-
-/// Produce a new blank HashMap to represent all players' scores for all rounds.
+/// Full score table, grouped by day, then player
+///
+/// TODO: use something better than a Vec - avoidable allocation
 ///
 /// Pseudocode model:
 /// ```
 /// // {
-/// //     Round::Fri -> Vec containing a ScoreDay for each player,
-/// //     Round::Sat -> Vec containing a ScoreDay for each player,
-/// //     Round::Sun -> Vec containing a ScoreDay for each player
+/// //     fri -> Vec containing a ScoreColumn for each player,
+/// //     sat -> Vec containing a ScoreColumn for each player,
+/// //     sun -> Vec containing a ScoreColumn for each player
 /// // }
 /// ```
-pub fn new_scores_table() -> HashMap<Round, Vec<ScoreDay>> {
-    let mut out = HashMap::with_capacity(3);
-    out.insert(Round::Fri, Vec::new());
-    out.insert(Round::Sat, Vec::new());
-    out.insert(Round::Sun, Vec::new());
+#[derive(serde::Deserialize, serde::Serialize, PartialEq, Clone, Default, Debug)]
+pub struct Scoreboard {
+    pub fri: Vec<ScoreColumn>,
+    pub sat: Vec<ScoreColumn>,
+    pub sun: Vec<ScoreColumn>,
+}
 
-    out
+impl Scoreboard {
+    pub fn from_num_players(num_players: usize) -> Self {
+        let vsc: Vec<ScoreColumn> = vec![ScoreColumn::default(); num_players];
+
+        Self {
+            fri: vsc.clone(),
+            sat: vsc.clone(),
+            sun: vsc,
+        }
+    }
 }

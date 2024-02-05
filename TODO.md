@@ -1,10 +1,14 @@
-situation now:
-score model uses Round values as keys
-more ergonomic for handling editintg scores (see page_scores.rs)
-but implementation is ugly, since it uses HashMaps when I feel like a more appropriate option exists. Somehow map enum variants to struct fields?
+Score model has been reworked to use a struct and not a HashMap. Now:
 
-* make a scoreboard
+* clean up code
+* make method to grab &mut vec of ScoreColumns
+* try refactoring Scoreboard to use tuple struct
+    * can the Round enum act as indexing key? maybe try impl'ing IndexMut
+
+---
+
 * player names
+* score results page (so must have score calc logic)
 
 Scorecard sections: 📰📷🌟⛶😿❎💰🏆
 1. Articles

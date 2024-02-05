@@ -5,21 +5,19 @@ mod page_start;
 mod page_timer;
 pub mod score_models;
 
-use std::collections::HashMap;
-
 use app_state::{NewspupPage, Round};
 use egui::{
     CentralPanel, FontData, FontDefinitions, FontFamily, FontId, Layout, TextStyle, TopBottomPanel,
 };
 
-use self::score_models::{new_scores_table, ScoreDay};
+use self::score_models::{ScoreColumn, Scoreboard};
 
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct NewspupApp {
     num_players: f32,
     page: NewspupPage,
-    scores: HashMap<Round, Vec<ScoreDay>>,
+    scores: Scoreboard,
 }
 
 impl Default for NewspupApp {
@@ -27,7 +25,7 @@ impl Default for NewspupApp {
         Self {
             num_players: 1.,
             page: NewspupPage::Start,
-            scores: new_scores_table(),
+            scores: Scoreboard::default(),
         }
     }
 }
@@ -40,7 +38,7 @@ impl NewspupApp {
 
         // TODO: allow controlling theme from settings instead of forcing it
         cc.egui_ctx.set_visuals(egui::Visuals::light());
-        
+
         // fonts
         let mut fonts = FontDefinitions::default();
         fonts.font_data.insert(
