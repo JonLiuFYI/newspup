@@ -37,6 +37,11 @@ impl NewspupApp {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // This is also where you can customize the look and feel of egui using
         // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
+
+        // TODO: allow controlling theme from settings instead of forcing it
+        cc.egui_ctx.set_visuals(egui::Visuals::light());
+        
+        // fonts
         let mut fonts = FontDefinitions::default();
         fonts.font_data.insert(
             "inter".to_owned(),
@@ -49,6 +54,7 @@ impl NewspupApp {
             .insert(0, "inter".to_owned());
         cc.egui_ctx.set_fonts(fonts);
 
+        // text styles
         let mut style = (*cc.egui_ctx.style()).clone();
         style.text_styles = [
             (

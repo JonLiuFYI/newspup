@@ -5,3 +5,13 @@ but implementation is ugly, since it uses HashMaps when I feel like a more appro
 
 * make a scoreboard
 * player names
+
+Scorecard sections: 📰📷🌟⛶😿❎💰🏆
+1. Articles
+2. Photos
+3. Centerpiece
+4. Whitespace
+5. Mood
+6. Leftovers
+7. Ads
+8. Score
