@@ -23,12 +23,22 @@ impl NewspupApp {
                 ui.label(format!("Player {}", i + 1));
                 ui.text_edit_singleline(&mut self.names[i]);
             });
+            if self.names[i].is_empty() {
+                ui.small(egui::RichText::new("⚠ Enter a name").color(ui.visuals().error_fg_color));
+            }
         }
 
-        if ui.button("Start Game").clicked() {
-            self.scores = Scoreboard::from_num_players(self.num_players as usize);
+        let any_name_empty = self
+            .names
+            .iter()
+            .take(self.num_players as usize)
+            .any(|s| s.is_empty());
 
-            self.page = NewspupPage::Scores(Round::Fri);
-        }
+        ui.add_enabled_ui(!any_name_empty, |ui| {
+            if ui.button("Start Game").clicked() {
+                self.scores = Scoreboard::from_num_players(self.num_players as usize);
+                self.page = NewspupPage::Scores(Round::Fri);
+            }
+        });
     }
 }

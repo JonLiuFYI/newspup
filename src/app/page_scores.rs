@@ -11,8 +11,8 @@ impl NewspupApp {
             dbg!(&self.scores[Round::Sun]);
         }
 
-        for player_score in &mut self.scores[round] {
-            ui.label("Player");
+        for (i, player_score) in &mut self.scores[round].iter_mut().enumerate() {
+            ui.heading(&self.names[i]);
             ui.horizontal(|ui| {
                 ui.label("Articles");
                 ui.add(

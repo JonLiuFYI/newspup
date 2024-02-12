@@ -28,7 +28,8 @@ impl Default for NewspupApp {
             num_players: 1.,
             page: NewspupPage::Start,
             scores: Scoreboard::default(),
-            names: [  // TODO: ugly, doesn't use MAX_PLAYERS
+            names: [
+                // TODO: ugly, doesn't use MAX_PLAYERS
                 String::new(),
                 String::new(),
                 String::new(),

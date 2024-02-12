@@ -1,4 +1,4 @@
-Just finished: made score model a struct that's indexable with Round enum variants
+Scoreboard: replace Vecs with HashMap of name->ScoreColumn?
 
 ---
 
