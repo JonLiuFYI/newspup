@@ -5,12 +5,13 @@ mod page_start;
 mod page_timer;
 pub mod score_models;
 
-use app_state::{NewspupPage, Round};
 use egui::{
     CentralPanel, FontData, FontDefinitions, FontFamily, FontId, Layout, TextStyle, TopBottomPanel,
 };
 
 use self::score_models::Scoreboard;
+use crate::consts::MAX_PLAYERS;
+use app_state::{NewspupPage, Round};
 
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
@@ -18,6 +19,7 @@ pub struct NewspupApp {
     num_players: f32,
     page: NewspupPage,
     scores: Scoreboard,
+    names: [String; MAX_PLAYERS],
 }
 
 impl Default for NewspupApp {
@@ -26,6 +28,14 @@ impl Default for NewspupApp {
             num_players: 1.,
             page: NewspupPage::Start,
             scores: Scoreboard::default(),
+            names: [
+                String::new(),
+                String::new(),
+                String::new(),
+                String::new(),
+                String::new(),
+                String::new(),
+            ],
         }
     }
 }
