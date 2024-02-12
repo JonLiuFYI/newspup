@@ -18,8 +18,11 @@ impl NewspupApp {
             );
         });
 
-        for i in 1..=self.num_players as usize {
-            ui.label(format!("Player {i}"));
+        for i in 0..self.num_players as usize {
+            ui.horizontal(|ui| {
+                ui.label(format!("Player {}", i + 1));
+                ui.text_edit_singleline(&mut self.names[i]);
+            });
         }
 
         if ui.button("Start Game").clicked() {
