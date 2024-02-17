@@ -1,5 +1,6 @@
 Prev/next buttons now flip through the scoring steps. Now need to implement:
-* header icons changing to match the current step
+* justify prev/next buttons
+* fix vertical alignment of header icons
 * show that step's score inputs
 
 ---

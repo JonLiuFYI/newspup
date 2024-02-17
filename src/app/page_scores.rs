@@ -9,19 +9,21 @@ impl NewspupApp {
         ui.horizontal(|ui| {
             if ui.button("Prev").clicked() && self.subpage[round] > 0 {
                 self.subpage[round] -= 1;
-                dbg!(SUBPAGES[self.subpage[round]]);
             }
 
-            ui.heading("📰");
-            ui.label("📷🌟⛶😿❎💰🏆");
+            let icons_temp = ["📰", "📷", "🌟", "⛶", "😿", "❎", "💰", "🏆"];
+            let subpage_num = self.subpage[round];
+
+            ui.label("○".repeat(subpage_num));
+            ui.heading(icons_temp[subpage_num]);
+            ui.label("○".repeat(7 - subpage_num));
 
             // TODO: rework subpage handling to not depend on magic numbers. enum-iterator crate?
             if ui.button("Next").clicked() && self.subpage[round] < 7 {
                 self.subpage[round] += 1;
-                dbg!(SUBPAGES[self.subpage[round]]);
             }
         });
-        
+
         ui.vertical_centered(|ui| {
             ui.heading(format!("{}", SUBPAGES[self.subpage[round]]));
         });
