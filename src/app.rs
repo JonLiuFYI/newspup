@@ -9,7 +9,7 @@ use egui::{
     CentralPanel, FontData, FontDefinitions, FontFamily, FontId, Layout, TextStyle, TopBottomPanel,
 };
 
-use self::score_models::Scoreboard;
+use self::{app_state::CurrentRoundSubpage, score_models::Scoreboard};
 use crate::consts::MAX_PLAYERS;
 use app_state::{NewspupPage, Round};
 
@@ -20,6 +20,8 @@ pub struct NewspupApp {
     page: NewspupPage,
     scores: Scoreboard,
     names: [String; MAX_PLAYERS],
+    // TODO: instead use data structure keyed by Round enum
+    subpage: CurrentRoundSubpage,
 }
 
 impl Default for NewspupApp {
@@ -37,6 +39,7 @@ impl Default for NewspupApp {
                 String::new(),
                 String::new(),
             ],
+            subpage: CurrentRoundSubpage::default(),
         }
     }
 }

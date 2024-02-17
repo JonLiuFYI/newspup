@@ -1,7 +1,10 @@
-Names are implemented. Time to make score inputs paginated
+Prev/next buttons now flip through the scoring steps. Now need to implement:
+* header icons changing to match the current step
+* show that step's score inputs
 
 ---
 
+* update rust version
 * score input pages
 * score results page (so must have score calc logic)
     * dep injection or strategy pattern to choose scoring algorithm: 1p, 2p, multi
