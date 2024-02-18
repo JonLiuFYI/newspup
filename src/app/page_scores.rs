@@ -1,4 +1,6 @@
-use egui::DragValue;
+use egui::{Align, DragValue, Layout, RichText};
+
+use crate::consts::SUBPAGE_ICONS;
 
 use super::app_state::{Round, SUBPAGES};
 use super::NewspupApp;
@@ -6,22 +8,29 @@ use super::NewspupApp;
 impl NewspupApp {
     pub(crate) fn page_scores(&mut self, round: Round, ui: &mut egui::Ui) {
         // subpage header
-        ui.horizontal(|ui| {
-            if ui.button("Prev").clicked() && self.subpage[round] > 0 {
+        ui.horizontal_top(|ui| {
+            if ui.button(RichText::new("←").heading()).clicked() && self.subpage[round] > 0 {
                 self.subpage[round] -= 1;
             }
 
-            let icons_temp = ["📰", "📷", "🌟", "⛶", "😿", "❎", "💰", "🏆"];
-            let subpage_num = self.subpage[round];
+            {
+                // subpage_num is just an immutable copy of the real value, so prevent
+                // accidentally using it by using a brace scope
+                let subpage_num = self.subpage[round];
 
-            ui.label("○".repeat(subpage_num));
-            ui.heading(icons_temp[subpage_num]);
-            ui.label("○".repeat(7 - subpage_num));
+                ui.horizontal(|ui| {
+                    ui.heading("•".repeat(subpage_num));
+                    ui.heading(SUBPAGE_ICONS[subpage_num]);
+                    ui.heading("•".repeat(7 - subpage_num));
+                });
+            }
 
             // TODO: rework subpage handling to not depend on magic numbers. enum-iterator crate?
-            if ui.button("Next").clicked() && self.subpage[round] < 7 {
-                self.subpage[round] += 1;
-            }
+            ui.with_layout(Layout::right_to_left(Align::TOP), |ui| {
+                if ui.button(RichText::new("→").heading()).clicked() && self.subpage[round] < 7 {
+                    self.subpage[round] += 1;
+                }
+            });
         });
 
         ui.vertical_centered(|ui| {
