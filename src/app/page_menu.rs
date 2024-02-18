@@ -1,4 +1,4 @@
-use super::app_state::NewspupPage;
+use super::app_state::{CurrentRoundSubpage, NewspupPage};
 use super::NewspupApp;
 
 impl NewspupApp {
@@ -6,6 +6,7 @@ impl NewspupApp {
         ui.heading("Menu");
         if ui.button("New Game").clicked() {
             self.page = NewspupPage::Start;
+            self.subpage = CurrentRoundSubpage::default();
         }
         ui.label("Theme");
         egui::widgets::global_dark_light_mode_buttons(ui);

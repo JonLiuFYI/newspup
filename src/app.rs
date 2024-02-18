@@ -20,7 +20,6 @@ pub struct NewspupApp {
     page: NewspupPage,
     scores: Scoreboard,
     names: [String; MAX_PLAYERS],
-    // TODO: instead use data structure keyed by Round enum
     subpage: CurrentRoundSubpage,
 }
 
