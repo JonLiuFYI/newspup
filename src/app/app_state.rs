@@ -18,6 +18,16 @@ pub enum Round {
     Sun,
 }
 
+impl Display for Round {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Round::Fri => write!(f, "Friday"),
+            Round::Sat => write!(f, "Saturday"),
+            Round::Sun => write!(f, "Sunday"),
+        }
+    }
+}
+
 #[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Debug)]
 pub enum RoundSubpage {
     ArticlePts = 0,
