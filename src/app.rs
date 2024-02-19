@@ -123,9 +123,9 @@ impl eframe::App for NewspupApp {
         if self.page != NewspupPage::Start {
             TopBottomPanel::top("header").show(ctx, |ui| {
                 ui.horizontal(|ui| {
-                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Fri), "Fri.");
-                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Sat), "Sat.");
-                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Sun), "Sun.");
+                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Fri), "１ Fri.");
+                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Sat), "２ Sat.");
+                    ui.selectable_value(&mut self.page, NewspupPage::Scores(Round::Sun), "３ Sun.");
 
                     if cfg!(debug_assertions) {
                         ui.label(

@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Jon Liu <2997583+JonLiuFYI@users.noreply.github.com>"]
 edition = "2021"
 rust-version = "1.76"
+license = "AGPL-3.0-or-later"
 
 
 [dependencies]

@@ -9,12 +9,20 @@ Score inputs now implemented. Now need to do score calc and show scoreboard at e
 
 * score results page (so must have score calc logic)
     * dep injection or strategy pattern to choose scoring algorithm: 1p, 2p, multi
-* licensing info (ideally automated)
+* automate cargo-about licensing info (in CI?)
+* AGPL license headers
+    * https://www.gnu.org/licenses/gpl-howto.html
 * deploy
 
 * code cleanup
 * Sunday page declares winner
 
+## Gather licensing info before release
+https://github.com/embarkstudios/cargo-about
+
+    cargo about generate about.hbs -o licenses.html
+
+## (name, ScoreColumn) iteration
 Manual way of iterating over a round's Vec as (name, ScoreColumn). Can I roll this into a trait to make it more ergonomic?
 
 ```
@@ -26,7 +34,8 @@ self.names
     });
 ```
 
-Scorecard sections: 📰📷🌟⛶😿❎💰🏆
+## Scorecard sections
+📰📷🌟⛶😿❎💰🏆
 1. Articles
 2. Photos
 3. Centerpiece

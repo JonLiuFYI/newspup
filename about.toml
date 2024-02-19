@@ -1,0 +1,16 @@
+accepted = [
+    "AGPL-3.0",
+    "Apache-2.0",
+    "MIT",
+    "ISC",
+    "BSL-1.0",
+    "Zlib",
+    "Unicode-DFS-2016",
+
+    "OFL-1.1",
+    "LicenseRef-UFL-1.0",
+]
+
+targets = ["wasm32-unknown-unknown"]
+
+# epaint's Ubuntu Font License ignored: not using the bundled Ubuntu Light
