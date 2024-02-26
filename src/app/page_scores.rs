@@ -44,7 +44,7 @@ impl NewspupApp {
                 ui.label(&self.names[i]);
 
                 if SUBPAGES[self.subpage[round]] == RoundSubpage::ShowScores {
-                    ui.label("Score TODO");
+                    ui.label(format!("Round: {} pts, ${}", "TEMP", player_score.ad_dollars));
                 } else {
                     // TODO: figure out how to extract this sin into a "router" method
                     ui.add(
@@ -94,7 +94,7 @@ impl NewspupApp {
 
         if cfg!(debug_assertions) {
             ui.with_layout(Layout::bottom_up(Align::RIGHT), |ui| {
-                if ui.button("Dump scores").clicked() {
+                if ui.button("Dump scoreboard").clicked() {
                     dbg!(&self.scores[Round::Fri]);
                     dbg!(&self.scores[Round::Sat]);
                     dbg!(&self.scores[Round::Sun]);

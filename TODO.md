@@ -1,8 +1,7 @@
-Score inputs now implemented. Now need to do score calc and show scoreboard at end of round
+Getting ad dollars for a round is trivial. How to organize code for calculating round scores?
+Maybe have something in score_models.rs. A new data structure to track round scores? What's tricky is I need to check all players to calculate whitespace points.
 
-* what to show on score subpage?
-    * this round and total
-    * just total
+* show points and dollars from this round, then same points and dollars for total
 * live-indicate who's getting whitespace bonus/penalty
 
 ---

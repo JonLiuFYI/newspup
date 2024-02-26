@@ -69,3 +69,21 @@ impl IndexMut<Round> for Scoreboard {
         }
     }
 }
+
+// pub trait ScoreCalc {
+//     /// list of points each player gained this round, ordered by player order
+//     fn points(&self) -> Vec<i32>;
+
+//     /// list of dollars each player gained this round, ordered by player order
+//     fn dollars(&self) -> Vec<i32>;
+// }
+
+// impl ScoreCalc for Vec<ScoreColumn> {
+//     fn points(&self) -> Vec<i32> {
+//         todo!()
+//     }
+
+//     fn dollars(&self) -> Vec<i32> {
+//         self.iter().map(|sc| sc.ad_dollars as i32).collect()
+//     }
+// }
