@@ -38,13 +38,21 @@ impl NewspupApp {
             }
         });
 
-        // subpage score inputs
+        // subpage contents
         if SUBPAGES[self.subpage[round]] == RoundSubpage::ShowScores {
-            for (i, player_score) in &mut self.scores[round].iter_mut().enumerate() {
-                ui.label(&self.names[i]);
+            for (p, scorecol) in &mut self.scores[round].iter_mut().enumerate() {
+                // TODO: temp for figuring out score calc. Also still need to calc whitespace
+                let score_sum_no_ws =
+                    scorecol.article_pts + scorecol.photo_pts + scorecol.centerpiece_pts
+                        - scorecol.mood_penalty
+                        - scorecol.leftover_penalty;
+                let score_whitespace: f32 = 0.; // TODO
+                let score_sum = score_sum_no_ws + score_whitespace;
+
+                ui.label(&self.names[p]);
                 ui.label(format!(
                     "Round: {} pts, ${}",
-                    "TEMP", player_score.ad_dollars
+                    score_sum, scorecol.ad_dollars
                 ));
             }
         } else {

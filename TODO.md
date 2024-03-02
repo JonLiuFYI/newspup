@@ -1,7 +1,10 @@
-Getting ad dollars for a round is trivial. How to organize code for calculating round scores?
-Maybe have something in score_models.rs. A new data structure to track round scores? What's tricky is I need to check all players to calculate whitespace points.
+How to organize code for calculating round scores?
+Counting non-whitespace points is easy: just add/subtract parts of the ScoreColumn. How to check whitespace points? Where does that code go?
 
-* show points and dollars from this round, then same points and dollars for total
+* show points from this round
+    * implement whitespace points
+    * refactor score sum and whitespace code into the right place
+* show points and dollars in total
 * live-indicate who's getting whitespace bonus/penalty
 
 ---
