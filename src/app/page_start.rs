@@ -1,3 +1,7 @@
+//! Game setup page
+//! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
+//! SPDX-License-Identifier: AGPL-3.0-or-later
+
 use egui::DragValue;
 
 use super::app_state::NewspupPage;

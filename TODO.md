@@ -12,8 +12,7 @@ Counting non-whitespace points is easy: just add/subtract parts of the ScoreColu
 * score results page (so must have score calc logic)
     * dep injection or strategy pattern to choose scoring algorithm: 1p, 2p, multi
 * automate cargo-about licensing info (in CI?)
-* AGPL license headers
-    * https://www.gnu.org/licenses/gpl-howto.html
+* link to Newspup source
 * deploy
 
 * code cleanup

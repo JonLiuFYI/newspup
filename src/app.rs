@@ -1,3 +1,7 @@
+//! Foundational app state, layout, and logic for Newspup
+//! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
+//! SPDX-License-Identifier: AGPL-3.0-or-later
+
 mod app_state;
 mod page_menu;
 mod page_scores;

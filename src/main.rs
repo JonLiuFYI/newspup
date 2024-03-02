@@ -1,3 +1,6 @@
+//! Entry point to Newspup
+//! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
+//! SPDX-License-Identifier: AGPL-3.0-or-later
 #![warn(clippy::all, rust_2018_idioms)]
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
