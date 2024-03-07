@@ -11,6 +11,7 @@ Counting non-whitespace points is easy: just add/subtract parts of the ScoreColu
 
 * score results page (so must have score calc logic)
     * dep injection or strategy pattern to choose scoring algorithm: 1p, 2p, multi
+* Allow centerpiece score to be negative
 * automate cargo-about licensing info (in CI?)
 * link to Newspup source
 * deploy

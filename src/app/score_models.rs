@@ -19,6 +19,15 @@ pub struct ScoreColumn {
     pub ad_dollars: f32,
 }
 
+impl ScoreColumn {
+    /// Sum of points for this ScoreColumn, *excluding* whitespace.
+    pub fn sum_no_whitespace(&self) -> f32 {
+        self.article_pts + self.photo_pts + self.centerpiece_pts
+            - self.mood_penalty
+            - self.leftover_penalty
+    }
+}
+
 /// Full score table, grouped by day, then player
 ///
 /// TODO: use something better than a Vec - avoidable allocation
