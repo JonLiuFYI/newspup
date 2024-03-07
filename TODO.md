@@ -1,17 +1,19 @@
-How to organize code for calculating round scores?
-Counting non-whitespace points is easy: just add/subtract parts of the ScoreColumn. How to check whitespace points? Where does that code go?
+Score calc logic for three players is now implemented and the code is put in reasonable places!
 
-* show points from this round
-    * implement whitespace points
-    * refactor score sum and whitespace code into the right place
+* rules to implement:
+    * what happens if whitespace sizes are tied?
+
+    * Allow centerpiece score to be negative
+    * Points/dollars earned in a round can't be negative — capped at 0
+    * Sunday money count
 * show points and dollars in total
-* live-indicate who's getting whitespace bonus/penalty
+* live-indicate who's getting whitespace bonus/penalty?
 
 ---
 
-* score results page (so must have score calc logic)
-    * dep injection or strategy pattern to choose scoring algorithm: 1p, 2p, multi
-* Allow centerpiece score to be negative
+* choose scoring algorithm based on number of players: 1p, 2p, multi
+    * dep injection or strategy pattern? Or just grab num_players at runtime?
+* player usize -> a newtype?
 * automate cargo-about licensing info (in CI?)
 * link to Newspup source
 * deploy

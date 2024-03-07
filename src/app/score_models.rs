@@ -81,20 +81,36 @@ impl IndexMut<Round> for Scoreboard {
     }
 }
 
-// pub trait ScoreCalc {
-//     /// list of points each player gained this round, ordered by player order
-//     fn points(&self) -> Vec<i32>;
+pub trait CalcWhitespace {
+    fn calc_whitespace(&self, player: usize) -> f32;
+}
 
-//     /// list of dollars each player gained this round, ordered by player order
-//     fn dollars(&self) -> Vec<i32>;
-// }
+impl CalcWhitespace for Vec<ScoreColumn> {
+    /// Calculate the points this player should get for their largest whitespace
+    ///
+    /// Implementation note: currently assumes three players. TODO: 2- and 1-player
+    fn calc_whitespace(&self, player: usize) -> f32 {
+        // get player's whitespace size
+        let player_whitespace = self[player].whitespace_size as i32;
 
-// impl ScoreCalc for Vec<ScoreColumn> {
-//     fn points(&self) -> Vec<i32> {
-//         todo!()
-//     }
+        let smallest_whitespace = self
+            .iter()
+            .map(|sc| sc.whitespace_size)
+            .reduce(f32::min)
+            .expect("whitespace_size should never be NaN") as i32;
+        let largest_whitespace = self
+            .iter()
+            .map(|sc| sc.whitespace_size)
+            .reduce(f32::max)
+            .expect("whitespace_size should never be NaN") as i32;
 
-//     fn dollars(&self) -> Vec<i32> {
-//         self.iter().map(|sc| sc.ad_dollars as i32).collect()
-//     }
-// }
+        // 3-player whitespace scoring
+        if player_whitespace == largest_whitespace {
+            -1.
+        } else if player_whitespace == smallest_whitespace {
+            3.
+        } else {
+            1.
+        }
+    }
+}

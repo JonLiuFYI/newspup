@@ -7,6 +7,7 @@ use egui::{Align, DragValue, Layout, RichText};
 use crate::consts::SUBPAGE_ICONS;
 
 use super::app_state::{Round, RoundSubpage, SUBPAGES};
+use super::score_models::CalcWhitespace;
 use super::NewspupApp;
 
 impl NewspupApp {
@@ -44,10 +45,9 @@ impl NewspupApp {
 
         // subpage contents
         if SUBPAGES[self.subpage[round]] == RoundSubpage::ShowScores {
-            for (p, scorecol) in &mut self.scores[round].iter_mut().enumerate() {
-                // TODO: temp for figuring out score calc. Also still need to calc whitespace
+            for (p, scorecol) in self.scores[round].iter().enumerate() {
                 let score_sum_no_ws = scorecol.sum_no_whitespace();
-                let score_whitespace: f32 = 0.; // TODO
+                let score_whitespace: f32 = self.scores[round].calc_whitespace(p);
                 let score_sum = score_sum_no_ws + score_whitespace;
 
                 ui.label(&self.names[p]);
@@ -55,6 +55,13 @@ impl NewspupApp {
                     "Round: {} pts, ${}",
                     score_sum, scorecol.ad_dollars
                 ));
+                ui.small(
+                    egui::RichText::new(format!(
+                        "(base: {}, whitespace: {})",
+                        score_sum_no_ws, score_whitespace
+                    ))
+                    .color(ui.visuals().weak_text_color()),
+                );
             }
         } else {
             for (i, player_score) in &mut self.scores[round].iter_mut().enumerate() {
