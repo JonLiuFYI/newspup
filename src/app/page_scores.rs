@@ -70,7 +70,6 @@ impl NewspupApp {
 
                     ui.add(
                         subpage_router(&SUBPAGES[self.subpage[round]], player_score)
-                            .clamp_range(0.0..=50.0)
                             .speed(0.02)
                             .max_decimals(0),
                     );
@@ -96,27 +95,33 @@ fn subpage_router<'a>(
     player_score: &'a mut super::score_models::ScoreColumn,
 ) -> DragValue<'a> {
     match subpage {
-        RoundSubpage::ArticlePts => DragValue::new(&mut player_score.article_pts).suffix(" points"),
+        RoundSubpage::ArticlePts => DragValue::new(&mut player_score.article_pts)
+            .suffix(" points")
+            .clamp_range(0.0..=50.0),
 
-        RoundSubpage::PhotoPts => DragValue::new(&mut player_score.photo_pts).suffix(" points"),
+        RoundSubpage::PhotoPts => DragValue::new(&mut player_score.photo_pts)
+            .suffix(" points")
+            .clamp_range(0.0..=50.0),
 
-        RoundSubpage::CenterpiecePts => {
-            DragValue::new(&mut player_score.centerpiece_pts).suffix(" points")
-        }
+        RoundSubpage::CenterpiecePts => DragValue::new(&mut player_score.centerpiece_pts)
+            .suffix(" points")
+            .clamp_range(-2.0..=50.0),
 
-        RoundSubpage::WhitespaceSize => {
-            DragValue::new(&mut player_score.whitespace_size).suffix(" squares")
-        }
+        RoundSubpage::WhitespaceSize => DragValue::new(&mut player_score.whitespace_size)
+            .suffix(" squares")
+            .clamp_range(0.0..=50.0),
 
-        RoundSubpage::MoodPenalty => {
-            DragValue::new(&mut player_score.mood_penalty).suffix(" points lost")
-        }
+        RoundSubpage::MoodPenalty => DragValue::new(&mut player_score.mood_penalty)
+            .suffix(" points lost")
+            .clamp_range(0.0..=50.0),
 
-        RoundSubpage::LeftoverPenalty => {
-            DragValue::new(&mut player_score.leftover_penalty).suffix(" unused")
-        }
+        RoundSubpage::LeftoverPenalty => DragValue::new(&mut player_score.leftover_penalty)
+            .suffix(" unused")
+            .clamp_range(0.0..=50.0),
 
-        RoundSubpage::AdDollars => DragValue::new(&mut player_score.ad_dollars).suffix(" dollars"),
+        RoundSubpage::AdDollars => DragValue::new(&mut player_score.ad_dollars)
+            .suffix(" dollars")
+            .clamp_range(0.0..=50.0),
 
         // ShowScores is already handled
         _ => DragValue::new(&mut player_score.ad_dollars).prefix(" YOU SHOULD NEVER SEE THIS!"),
