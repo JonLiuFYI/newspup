@@ -21,7 +21,7 @@ pub struct ScoreColumn {
 
 impl ScoreColumn {
     /// Sum of points for this ScoreColumn, *excluding* whitespace.
-    pub fn sum_no_whitespace(&self) -> f32 {
+    fn sum_no_whitespace(&self) -> f32 {
         self.article_pts + self.photo_pts + self.centerpiece_pts
             - self.mood_penalty
             - self.leftover_penalty
@@ -81,15 +81,16 @@ impl IndexMut<Round> for Scoreboard {
     }
 }
 
-pub trait CalcWhitespace {
-    fn calc_whitespace(&self, player: usize) -> f32;
+pub trait CalcScore {
+    fn calc_round_whitespace(&self, player: usize) -> f32;
+    fn calc_round_total(&self, player: usize) -> f32;
 }
 
-impl CalcWhitespace for Vec<ScoreColumn> {
+impl CalcScore for Vec<ScoreColumn> {
     /// Calculate the points this player should get for their largest whitespace
     ///
     /// Implementation note: currently assumes three players. TODO: 2- and 1-player
-    fn calc_whitespace(&self, player: usize) -> f32 {
+    fn calc_round_whitespace(&self, player: usize) -> f32 {
         // get player's whitespace size
         let player_whitespace = self[player].whitespace_size as i32;
 
@@ -113,5 +114,12 @@ impl CalcWhitespace for Vec<ScoreColumn> {
         } else {
             1.
         }
+    }
+
+    /// Calculate the total score this player gained this round: whitespace plus
+    /// the rest of their ScoreColumn. Lower bound is 0.
+    fn calc_round_total(&self, player: usize) -> f32 {
+        let sc = self[player];
+        (sc.sum_no_whitespace() + self.calc_round_whitespace(player)).max(0.)
     }
 }
