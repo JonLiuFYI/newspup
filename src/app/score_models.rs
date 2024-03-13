@@ -105,10 +105,11 @@ impl CalcWhitespace for Vec<ScoreColumn> {
             .expect("whitespace_size should never be NaN") as i32;
 
         // 3-player whitespace scoring
-        if player_whitespace == largest_whitespace {
-            -1.
-        } else if player_whitespace == smallest_whitespace {
+        // If tied, each gets the award. +3 to everyone is possible.
+        if player_whitespace == smallest_whitespace {
             3.
+        } else if player_whitespace == largest_whitespace {
+            -1.
         } else {
             1.
         }
