@@ -1,7 +1,6 @@
 Score calc logic for three players is now implemented and the code is put in reasonable places!
 
 * rules to implement:
-    * dollars earned in a round can't be negative — capped at 0
     * Sunday money count
         * only eliminate if exactly one player has least money
 * show points and dollars in total

@@ -46,13 +46,11 @@ impl NewspupApp {
         // subpage contents
         if SUBPAGES[self.subpage[round]] == RoundSubpage::ShowScores {
             for (p, scorecol) in self.scores[round].iter().enumerate() {
-                let score_sum = self.scores[round].calc_round_total(p);
+                let round_pts = self.scores[round].calc_round_total(p);
+                let round_dollars = scorecol.round_dollars();
 
                 ui.label(&self.names[p]);
-                ui.label(format!(
-                    "Round: {} pts, ${}",
-                    score_sum, scorecol.ad_dollars
-                ));
+                ui.label(format!("Round: {} pts, ${}", round_pts, round_dollars));
             }
         } else {
             for (i, player_score) in &mut self.scores[round].iter_mut().enumerate() {

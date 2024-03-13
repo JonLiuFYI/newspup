@@ -26,6 +26,17 @@ impl ScoreColumn {
             - self.mood_penalty
             - self.leftover_penalty
     }
+
+    /// Get the ad_dollars. Lower bound is 0.
+    /// 
+    /// Wait, is negative dollars ever possible?
+    pub fn round_dollars(&self) -> f32 {
+        if self.ad_dollars >= 0. {
+            self.ad_dollars
+        } else {
+            0.
+        }
+    }
 }
 
 /// Full score table, grouped by day, then player
