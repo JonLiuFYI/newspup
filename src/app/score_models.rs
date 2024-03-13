@@ -28,7 +28,7 @@ impl ScoreColumn {
     }
 
     /// Get the ad_dollars. Lower bound is 0.
-    /// 
+    ///
     /// Wait, is negative dollars ever possible?
     pub fn round_dollars(&self) -> f32 {
         if self.ad_dollars >= 0. {
