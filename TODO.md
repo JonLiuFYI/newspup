@@ -1,4 +1,9 @@
-* show points and dollars in total
+* for each round, show total points and dollars *up to that round*
+        fri: don't show totals? or just repeat fri scores as total
+        sat: show fri+sat
+        sun: show fri+sat+sun
+    * this avoids correct but weird total scores: future, unfilled rounds have 0 whitespace for each player, so they all get 3 points for whitespace
+    * will PlayerScoreSummary be useful?
 * rules to implement:
     * Sunday money count
         * only eliminate if exactly one player has least money

@@ -92,6 +92,16 @@ impl IndexMut<Round> for Scoreboard {
     }
 }
 
+/// Tuple-like struct to represent a player's point and dollar scores "compiled" into a
+/// unit of data.
+///
+/// We a list of these to represent the total scores for each player.
+#[derive(serde::Deserialize, serde::Serialize, PartialEq, Clone, Default, Debug)]
+pub struct PlayerScoreSummary {
+    pts: f32,
+    dollars: f32,
+}
+
 pub trait CalcScore {
     fn calc_round_whitespace(&self, player: usize) -> f32;
     fn calc_round_score(&self, player: usize) -> f32;
