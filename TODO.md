@@ -1,9 +1,7 @@
-Score calc logic for three players is now implemented and the code is put in reasonable places!
-
+* show points and dollars in total
 * rules to implement:
     * Sunday money count
         * only eliminate if exactly one player has least money
-* show points and dollars in total
 * live-indicate who's getting whitespace bonus/penalty?
 
 ---

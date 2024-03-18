@@ -94,7 +94,7 @@ impl IndexMut<Round> for Scoreboard {
 
 pub trait CalcScore {
     fn calc_round_whitespace(&self, player: usize) -> f32;
-    fn calc_round_total(&self, player: usize) -> f32;
+    fn calc_round_score(&self, player: usize) -> f32;
 }
 
 impl CalcScore for Vec<ScoreColumn> {
@@ -129,7 +129,7 @@ impl CalcScore for Vec<ScoreColumn> {
 
     /// Calculate the total score this player gained this round: whitespace plus
     /// the rest of their ScoreColumn. Lower bound is 0.
-    fn calc_round_total(&self, player: usize) -> f32 {
+    fn calc_round_score(&self, player: usize) -> f32 {
         let sc = self[player];
         (sc.sum_no_whitespace() + self.calc_round_whitespace(player)).max(0.)
     }

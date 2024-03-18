@@ -46,7 +46,7 @@ impl NewspupApp {
         // subpage contents
         if SUBPAGES[self.subpage[round]] == RoundSubpage::ShowScores {
             for (p, scorecol) in self.scores[round].iter().enumerate() {
-                let round_pts = self.scores[round].calc_round_total(p);
+                let round_pts = self.scores[round].calc_round_score(p);
                 let round_dollars = scorecol.round_dollars();
 
                 ui.label(&self.names[p]);
