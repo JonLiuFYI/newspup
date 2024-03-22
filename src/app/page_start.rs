@@ -36,7 +36,7 @@ impl NewspupApp {
             .names
             .iter()
             .take(self.num_players as usize)
-            .any(|s| s.is_empty());
+            .any(std::string::String::is_empty);
 
         ui.add_enabled_ui(!any_name_empty, |ui| {
             if ui.button("Start Game").clicked() {
