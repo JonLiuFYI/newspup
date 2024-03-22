@@ -35,6 +35,7 @@ impl NewspupApp {
             });
         });
 
+        // score category heading
         ui.vertical_centered(|ui| {
             if SUBPAGES[subpage_num] != RoundSubpage::ShowScores {
                 ui.heading(format!("{}", SUBPAGES[subpage_num]));
@@ -49,8 +50,28 @@ impl NewspupApp {
                 let round_pts = self.scores[round].calc_round_score(p);
                 let round_dollars = scorecol.round_dollars();
 
-                ui.label(&self.names[p]);
+                let total_pts = round_pts
+                    + match round {
+                        Round::Fri => 0.,
+                        Round::Sat => self.scores[Round::Fri].calc_round_score(p),
+                        Round::Sun => {
+                            self.scores[Round::Fri].calc_round_score(p)
+                                + self.scores[Round::Sat].calc_round_score(p)
+                        }
+                    };
+                let total_dollars = round_dollars
+                    + match round {
+                        Round::Fri => 0.,
+                        Round::Sat => self.scores[Round::Fri][p].round_dollars(),
+                        Round::Sun => {
+                            self.scores[Round::Fri][p].round_dollars()
+                                + self.scores[Round::Sat][p].round_dollars()
+                        }
+                    };
+
+                ui.heading(&self.names[p]);
                 ui.label(format!("Round: {} pts, ${}", round_pts, round_dollars));
+                ui.label(format!("Total: {} pts, ${}", total_pts, total_dollars));
             }
         } else {
             for (i, player_score) in &mut self.scores[round].iter_mut().enumerate() {
