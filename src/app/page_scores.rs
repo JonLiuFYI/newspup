@@ -50,24 +50,8 @@ impl NewspupApp {
                 let round_pts = self.scores[round].calc_round_score(p);
                 let round_dollars = scorecol.round_dollars();
 
-                let total_pts = round_pts
-                    + match round {
-                        Round::Fri => 0.,
-                        Round::Sat => self.scores[Round::Fri].calc_round_score(p),
-                        Round::Sun => {
-                            self.scores[Round::Fri].calc_round_score(p)
-                                + self.scores[Round::Sat].calc_round_score(p)
-                        }
-                    };
-                let total_dollars = round_dollars
-                    + match round {
-                        Round::Fri => 0.,
-                        Round::Sat => self.scores[Round::Fri][p].round_dollars(),
-                        Round::Sun => {
-                            self.scores[Round::Fri][p].round_dollars()
-                                + self.scores[Round::Sat][p].round_dollars()
-                        }
-                    };
+                let total_pts = self.scores.total_pts_up_to(round, p);
+                let total_dollars = self.scores.total_dollars_up_to(round, p);
 
                 ui.heading(&self.names[p]);
                 ui.label(format!("Round: {} pts, ${}", round_pts, round_dollars));

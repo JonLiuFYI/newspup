@@ -68,6 +68,26 @@ impl Scoreboard {
             sun: vsc,
         }
     }
+
+    /// Get a player's total points up to the given round.
+    pub fn total_pts_up_to(&self, round: Round, player: usize) -> f32 {
+        self.fri.calc_round_score(player)
+            + match round {
+                Round::Fri => 0.,
+                Round::Sat => self.sat.calc_round_score(player),
+                Round::Sun => self.sat.calc_round_score(player) + self.sun.calc_round_score(player),
+            }
+    }
+
+    /// Get a player's total dollars up to the given round.
+    pub fn total_dollars_up_to(&self, round: Round, player: usize) -> f32 {
+        self.fri[player].round_dollars()
+            + match round {
+                Round::Fri => 0.,
+                Round::Sat => self.sat[player].round_dollars(),
+                Round::Sun => self.sat[player].round_dollars() + self.sun[player].round_dollars(),
+            }
+    }
 }
 
 impl Index<Round> for Scoreboard {
@@ -90,16 +110,6 @@ impl IndexMut<Round> for Scoreboard {
             Round::Sun => &mut self.sun,
         }
     }
-}
-
-/// Tuple-like struct to represent a player's point and dollar scores "compiled" into a
-/// unit of data.
-///
-/// We a list of these to represent the total scores for each player.
-#[derive(serde::Deserialize, serde::Serialize, PartialEq, Clone, Default, Debug)]
-pub struct PlayerScoreSummary {
-    pts: f32,
-    dollars: f32,
 }
 
 pub trait CalcScore {
