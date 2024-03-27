@@ -88,6 +88,15 @@ impl Scoreboard {
                 Round::Sun => self.sat[player].round_dollars() + self.sun[player].round_dollars(),
             }
     }
+
+    /// Which player (if any) gets a penalty based on low money?
+    pub fn sunday_dollars_loser(&self) -> Option<usize> {
+        // for 3+ players:
+        // pair up players with total_dollars_up_to: (p, d)
+        // find the smallest d
+        // return p if unique else None
+        todo!()
+    }
 }
 
 impl Index<Round> for Scoreboard {

@@ -10,6 +10,7 @@ implemented displaying total points and dollars, now do money count logic
 * choose scoring algorithm based on number of players: 1p, 2p, multi
     * dep injection or strategy pattern? Or just grab num_players at runtime?
 * player usize -> a newtype?
+* timer
 * automate cargo-about licensing info (in CI?)
 * link to Newspup source
 * deploy
