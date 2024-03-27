@@ -1,9 +1,4 @@
-implemented displaying total points and dollars, now do money count logic
-
-* rules to implement:
-    * Sunday money count
-        * only eliminate if exactly one player has least money
-* live-indicate who's getting whitespace bonus/penalty?
+* declare winner, ignoring loser
 
 ---
 

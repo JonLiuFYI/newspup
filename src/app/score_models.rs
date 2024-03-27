@@ -90,12 +90,24 @@ impl Scoreboard {
     }
 
     /// Which player (if any) gets a penalty based on low money?
+    /// Implementation note: this is the rule for 3+ players
     pub fn sunday_dollars_loser(&self) -> Option<usize> {
-        // for 3+ players:
-        // pair up players with total_dollars_up_to: (p, d)
-        // find the smallest d
-        // return p if unique else None
-        todo!()
+        let num_players = self.fri.len();
+        let min_dollars = (0..num_players)
+            .map(|p| self.total_dollars_up_to(Round::Sun, p))
+            .reduce(f32::min)
+            .expect("dollar count should never be NaN");
+
+        let min_dollar_players: Vec<(usize, f32)> = (0..num_players)
+            .map(|p| (p, self.total_dollars_up_to(Round::Sun, p)))
+            .filter(|x| x.1 == min_dollars)
+            .collect();
+
+        if min_dollar_players.len() == 1 {
+            Some(min_dollar_players[0].0)
+        } else {
+            None
+        }
     }
 }
 
