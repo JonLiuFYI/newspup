@@ -47,6 +47,16 @@ impl NewspupApp {
         // subpage contents
         if SUBPAGES[self.subpage[round]] == RoundSubpage::ShowScores {
             let loser = self.scores.sunday_dollars_loser();
+            let winners = self.scores.winners(loser);
+
+            if round == Round::Sun {
+                if winners.len() == 1 {
+                    ui.label(format!("{} is the winner!", self.names[winners[0]]));
+                } else {
+                    ui.label("It's a tie! Top player that printed first on Sunday wins!");
+                }
+            }
+
             for (p, scorecol) in self.scores[round].iter().enumerate() {
                 let round_pts = self.scores[round].calc_round_score(p);
                 let round_dollars = scorecol.round_dollars();
@@ -57,14 +67,22 @@ impl NewspupApp {
                 ui.heading(&self.names[p]);
 
                 // sunday penalty for 3+ players
-                if round == Round::Sun && loser.is_some_and(|loser| p == loser) {
-                    ui.label(
-                        egui::RichText::new("Bankrupt! Least money of all players.")
-                            .small()
-                            .color(ui.visuals().error_fg_color),
-                    );
+                if round == Round::Sun {
+                    if loser.is_some_and(|loser| p == loser) {
+                        ui.label(
+                            egui::RichText::new("Bankrupt! Least money of all players.")
+                                .small()
+                                .color(ui.visuals().error_fg_color),
+                        );
+                    } else if winners.contains(&p) {
+                        ui.label(
+                            egui::RichText::new("Top score!")
+                                .small()
+                                .color(ui.visuals().warn_fg_color),
+                        );
+                    }
                 }
-                
+
                 ui.label(format!("Round: {} pts, ${}", round_pts, round_dollars));
                 ui.label(format!("Total: {} pts, ${}", total_pts, total_dollars));
             }

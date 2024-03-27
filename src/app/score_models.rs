@@ -109,6 +109,27 @@ impl Scoreboard {
             None
         }
     }
+
+    /// Which players have the highest score, ignoring the eliminated player?
+    /// Implementation note: assumes 3+ players
+    pub fn winners(&self, loser: Option<usize>) -> Vec<usize> {
+        let num_players = self.fri.len();
+        let max_pts = (0..num_players)
+            .map(|p| self.total_pts_up_to(Round::Sun, p))
+            .reduce(f32::max)
+            .expect("pts should never be NaN");
+
+        (0..num_players)
+            .map(|p| (p, self.total_pts_up_to(Round::Sun, p)))
+            .filter_map(|(p, pts)| {
+                if pts == max_pts && (loser.is_none() || loser.is_some_and(|loser| p != loser)) {
+                    Some(p)
+                } else {
+                    None
+                }
+            })
+            .collect()
+    }
 }
 
 impl Index<Round> for Scoreboard {
