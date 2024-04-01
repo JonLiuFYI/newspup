@@ -20,11 +20,15 @@ use app_state::{NewspupPage, Round};
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct NewspupApp {
+    // scorekeeping
     num_players: f32,
     page: NewspupPage,
     scores: Scoreboard,
     names: [String; MAX_PLAYERS],
     subpage: CurrentRoundSubpage,
+
+    // timer
+    start_time: Option<f64>,
 }
 
 impl Default for NewspupApp {
@@ -43,6 +47,7 @@ impl Default for NewspupApp {
                 String::new(),
             ],
             subpage: CurrentRoundSubpage::default(),
+            start_time: None,
         }
     }
 }
