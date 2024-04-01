@@ -13,10 +13,10 @@ impl NewspupApp {
     pub(crate) fn page_start(&mut self, ui: &mut egui::Ui) {
         ui.heading("Newspup");
         ui.horizontal(|ui| {
-            ui.label("How many players?");
+            ui.label("How many players? (3-6)");
             ui.add(
                 DragValue::new(&mut self.num_players)
-                    .clamp_range(1.0..=6.0)
+                    .clamp_range(3.0..=6.0) // TODO: allow 1 and 2 players once their scoring is figured out
                     .speed(0.02)
                     .max_decimals(0),
             );

@@ -1,10 +1,13 @@
-* choose scoring algorithm based on number of players: 1p, 2p, multi
-    * dep injection or strategy pattern? Or just grab num_players at runtime?
+* timer
 
 ---
 
-* player usize -> a newtype?
-* timer
+* code cleanup
+    * player usize -> a newtype?
+* choose scoring algorithm based on number of players: 1p, 2p, multi
+    * dep injection or strategy pattern? Or just grab num_players at runtime?
+    * So far, implemented the rules for 2p and 1p, but actually handling 2p might need a rework. While 3+p eliminates on Sunday, 2p applies a -10 pt penalty, which should be calculated in the model, not just calced on the spot in the score UI. For now, app is limited to 3p.
+    * don't forget to allow selecting 1 and 2 players
 * automate cargo-about licensing info (in CI?)
 * link to Newspup source
 * deploy

@@ -90,23 +90,49 @@ impl Scoreboard {
     }
 
     /// Which player (if any) gets a penalty based on low money?
-    /// Implementation note: this is the rule for 3+ players
     pub fn sunday_dollars_loser(&self) -> Option<usize> {
         let num_players = self.fri.len();
-        let min_dollars = (0..num_players)
-            .map(|p| self.total_dollars_up_to(Round::Sun, p))
-            .reduce(f32::min)
-            .expect("dollar count should never be NaN");
 
-        let min_dollar_players: Vec<(usize, f32)> = (0..num_players)
-            .map(|p| (p, self.total_dollars_up_to(Round::Sun, p)))
-            .filter(|x| x.1 == min_dollars)
-            .collect();
+        // 3+ players: if one player has the least money, they're penalized
+        // penalty: eliminated
+        if num_players >= 3 {
+            let min_dollars = (0..num_players)
+                .map(|p| self.total_dollars_up_to(Round::Sun, p))
+                .reduce(f32::min)
+                .expect("dollar count should never be NaN");
 
-        if min_dollar_players.len() == 1 {
-            Some(min_dollar_players[0].0)
-        } else {
-            None
+            let min_dollar_players: Vec<(usize, f32)> = (0..num_players)
+                .map(|p| (p, self.total_dollars_up_to(Round::Sun, p)))
+                .filter(|x| x.1 == min_dollars)
+                .collect();
+
+            if min_dollar_players.len() == 1 {
+                Some(min_dollar_players[0].0)
+            } else {
+                None
+            }
+        }
+        // 2 players: penalized if behind by $5 or more
+        // penalty: -10 points
+        else if num_players == 2 {
+            let first_player_dollar_lead =
+                self.total_dollars_up_to(Round::Sun, 0) - self.total_dollars_up_to(Round::Sun, 1);
+            if first_player_dollar_lead >= 5. {
+                Some(1)
+            } else if first_player_dollar_lead <= -5. {
+                Some(0)
+            } else {
+                None
+            }
+        }
+        // 1 player: $11 or less
+        // penalty: failure
+        else {
+            if self.total_dollars_up_to(Round::Sun, 0) <= 11. {
+                Some(0)
+            } else {
+                None
+            }
         }
     }
 
@@ -161,31 +187,41 @@ pub trait CalcScore {
 
 impl CalcScore for Vec<ScoreColumn> {
     /// Calculate the points this player should get for their largest whitespace
-    ///
-    /// Implementation note: currently assumes three players. TODO: 2- and 1-player
     fn calc_round_whitespace(&self, player: usize) -> f32 {
         // get player's whitespace size
         let player_whitespace = self[player].whitespace_size as i32;
 
-        let smallest_whitespace = self
-            .iter()
-            .map(|sc| sc.whitespace_size)
-            .reduce(f32::min)
-            .expect("whitespace_size should never be NaN") as i32;
-        let largest_whitespace = self
-            .iter()
-            .map(|sc| sc.whitespace_size)
-            .reduce(f32::max)
-            .expect("whitespace_size should never be NaN") as i32;
+        // whitespace scoring for 2 and 3+ players
+        if self.len() >= 2 {
+            let smallest_whitespace =
+                self.iter()
+                    .map(|sc| sc.whitespace_size)
+                    .reduce(f32::min)
+                    .expect("whitespace_size should never be NaN") as i32;
+            let largest_whitespace =
+                self.iter()
+                    .map(|sc| sc.whitespace_size)
+                    .reduce(f32::max)
+                    .expect("whitespace_size should never be NaN") as i32;
 
-        // 3-player whitespace scoring
-        // If tied, each gets the award. +3 to everyone is possible.
-        if player_whitespace == smallest_whitespace {
-            3.
-        } else if player_whitespace == largest_whitespace {
-            -1.
-        } else {
-            1.
+            // If tied, each gets the award. +3 to everyone is possible.
+            if player_whitespace == smallest_whitespace {
+                3.
+            } else if player_whitespace == largest_whitespace {
+                -1.
+            } else {
+                1.
+            }
+        }
+        // whitespace scoring for 1 player
+        else {
+            match player_whitespace {
+                0 | 1 => 3.,
+                2 | 3 => 2.,
+                4 | 5 => 1.,
+                6 | 7 => 0.,
+                _ => -1.,
+            }
         }
     }
 
