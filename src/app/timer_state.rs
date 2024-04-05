@@ -1,6 +1,7 @@
 #[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Debug)]
 pub enum TimerState {
-    Stopped,
+    /// timer is stopped; track selected timer duration
+    Stopped(f64),
     /// timer is running, started at `start_time`, will last for `duration` seconds
     Started {
         start_time: f64,

@@ -10,8 +10,6 @@ use super::NewspupApp;
 
 impl NewspupApp {
     pub(crate) fn page_timer(&mut self, ui: &mut egui::Ui) {
-        let selected_duration: f64 = 10.; // TODO: allow choosing a time
-
         let app_time = ui.ctx().input(|i| i.time);
         let mut seconds_remaining: f64 = 0.;
 
@@ -23,7 +21,7 @@ impl NewspupApp {
             } => {
                 // app was relaunched while a timer was running; reset the timer
                 if start_time > app_time {
-                    self.timer_state = TimerState::Stopped;
+                    self.timer_state = TimerState::Stopped(10.); // TODO: magic number
                 }
 
                 let timer_elapsed = app_time - start_time;
@@ -35,7 +33,17 @@ impl NewspupApp {
                     self.timer_state = TimerState::TimeUp;
                 }
             }
-            TimerState::Stopped => {
+            TimerState::Stopped(selected_duration) => {
+                if ui.button("3:00 — Frantic").clicked() {
+                    self.timer_state = TimerState::Stopped(5.); // 180
+                }
+                if ui.button("4:00 — Standard").clicked() {
+                    self.timer_state = TimerState::Stopped(10.); // 240
+                }
+                if ui.button("5:00 — Relaxed").clicked() {
+                    self.timer_state = TimerState::Stopped(15.); // 300
+                }
+
                 ui.heading(format!("{selected_duration:.1}"));
             }
             TimerState::TimeUp => {
@@ -48,7 +56,7 @@ impl NewspupApp {
 
         // controls
         let start_btn = ui.add_enabled(
-            self.timer_state == TimerState::Stopped,
+            matches!(self.timer_state, TimerState::Stopped(_)),
             Button::new("Start"),
         );
         let pause_btn = ui.add_enabled(
@@ -66,11 +74,13 @@ impl NewspupApp {
         );
 
         if start_btn.clicked() {
-            self.timer_state = TimerState::Started {
-                start_time: app_time,
-                duration: selected_duration,
-            };
-            dbg!(self.timer_state);
+            if let TimerState::Stopped(selected_duration) = self.timer_state {
+                self.timer_state = TimerState::Started {
+                    start_time: app_time,
+                    duration: selected_duration,
+                };
+                dbg!(self.timer_state);
+            }
         }
         if pause_btn.clicked() {
             self.timer_state = TimerState::Paused(seconds_remaining);
@@ -84,7 +94,7 @@ impl NewspupApp {
             }
         }
         if reset_btn.clicked() {
-            self.timer_state = TimerState::Stopped;
+            self.timer_state = TimerState::Stopped(10.); // TODO: magic number
         }
 
         ui.label(format!("(Elapsed: {app_time:.1})"));

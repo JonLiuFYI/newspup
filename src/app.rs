@@ -48,7 +48,7 @@ impl Default for NewspupApp {
                 String::new(),
             ],
             subpage: CurrentRoundSubpage::default(),
-            timer_state: TimerState::Stopped,
+            timer_state: TimerState::Stopped(240.), // TODO: magic number
         }
     }
 }

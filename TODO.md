@@ -1,9 +1,9 @@
 Now: implementing timer
+Can choose a timer duration, but the choice is forgotten when timer is reset. Make it remember the choice!
 
 * probably just full reset the timer when app is relaunched: always return to Stopped
     * currently only resets if timer was running when app was closed
     * how to detect TimerState at the moment app is relaunched?
-* choose a time
 
 ---
 
