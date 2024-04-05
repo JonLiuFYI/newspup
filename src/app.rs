@@ -8,12 +8,13 @@ mod page_scores;
 mod page_start;
 mod page_timer;
 pub mod score_models;
+mod timer_state;
 
 use egui::{
     CentralPanel, FontData, FontDefinitions, FontFamily, FontId, Layout, TextStyle, TopBottomPanel,
 };
 
-use self::{app_state::CurrentRoundSubpage, score_models::Scoreboard};
+use self::{app_state::CurrentRoundSubpage, score_models::Scoreboard, timer_state::TimerState};
 use crate::consts::MAX_PLAYERS;
 use app_state::{NewspupPage, Round};
 
@@ -29,6 +30,7 @@ pub struct NewspupApp {
 
     // timer
     start_time: Option<f64>,
+    timer_state: TimerState,
 }
 
 impl Default for NewspupApp {
@@ -48,6 +50,7 @@ impl Default for NewspupApp {
             ],
             subpage: CurrentRoundSubpage::default(),
             start_time: None,
+            timer_state: TimerState::Stopped,
         }
     }
 }

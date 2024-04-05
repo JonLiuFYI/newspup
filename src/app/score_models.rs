@@ -127,12 +127,10 @@ impl Scoreboard {
         }
         // 1 player: $11 or less
         // penalty: failure
-        else {
-            if self.total_dollars_up_to(Round::Sun, 0) <= 11. {
-                Some(0)
-            } else {
-                None
-            }
+        else if self.total_dollars_up_to(Round::Sun, 0) <= 11. {
+            Some(0)
+        } else {
+            None
         }
     }
 

@@ -1,6 +1,5 @@
 Now: implementing timer
 
-* stop at zero
 * pause/resume
 * reset (maybe redundant with choosing a time)
 * choose a time
