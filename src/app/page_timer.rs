@@ -11,25 +11,21 @@ impl NewspupApp {
         const TIMER_DURATION: f64 = 10.; // TODO: allow choosing a time
         let app_time = ui.ctx().input(|i| i.time);
 
-        // reset start_time if app was relaunched
-        if self.start_time.is_some_and(|st| st > app_time) {
-            self.start_time = None;
-            self.timer_state = TimerState::Stopped;
-        }
-
         // timer display
-        // TODO: add value to enum: Started(start_time)
         match self.timer_state {
-            TimerState::Started => {
-                if let Some(start_time) = self.start_time {
-                    let elapsed_time = app_time - start_time;
-                    let seconds_remaining = TIMER_DURATION - elapsed_time;
+            TimerState::Started(start_time) => {
+                // app was relaunched while a timer was running; reset the timer
+                if start_time > app_time {
+                    self.timer_state = TimerState::Stopped;
+                }
 
-                    ui.heading(format!("{seconds_remaining:.1}"));
+                let elapsed_time = app_time - start_time;
+                let seconds_remaining = TIMER_DURATION - elapsed_time;
 
-                    if seconds_remaining <= 0. {
-                        self.timer_state = TimerState::TimeUp;
-                    }
+                ui.heading(format!("{seconds_remaining:.1}"));
+
+                if seconds_remaining <= 0. {
+                    self.timer_state = TimerState::TimeUp;
                 }
             }
             TimerState::Stopped => {
@@ -54,9 +50,8 @@ impl NewspupApp {
         );
 
         if timer_start_btn.clicked() {
-            self.start_time = Some(app_time);
-            self.timer_state = TimerState::Started;
-            dbg!(self.start_time);
+            self.timer_state = TimerState::Started(app_time);
+            dbg!(self.timer_state);
         }
         if timer_reset_btn.clicked() {
             self.timer_state = TimerState::Stopped;

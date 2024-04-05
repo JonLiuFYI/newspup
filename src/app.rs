@@ -29,7 +29,6 @@ pub struct NewspupApp {
     subpage: CurrentRoundSubpage,
 
     // timer
-    start_time: Option<f64>,
     timer_state: TimerState,
 }
 
@@ -49,7 +48,6 @@ impl Default for NewspupApp {
                 String::new(),
             ],
             subpage: CurrentRoundSubpage::default(),
-            start_time: None,
             timer_state: TimerState::Stopped,
         }
     }
