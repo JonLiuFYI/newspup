@@ -30,6 +30,7 @@ pub struct NewspupApp {
 
     // timer
     timer_state: TimerState,
+    selected_duration: f64,
 }
 
 impl Default for NewspupApp {
@@ -48,7 +49,8 @@ impl Default for NewspupApp {
                 String::new(),
             ],
             subpage: CurrentRoundSubpage::default(),
-            timer_state: TimerState::Stopped(240.), // TODO: magic number
+            timer_state: TimerState::Stopped,
+            selected_duration: 240.,
         }
     }
 }

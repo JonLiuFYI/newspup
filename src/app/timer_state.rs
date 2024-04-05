@@ -1,7 +1,11 @@
+//! Start/stop state of the timer on the timer page
+//! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
+//! SPDX-License-Identifier: AGPL-3.0-or-later
+
 #[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Debug)]
 pub enum TimerState {
     /// timer is stopped; track selected timer duration
-    Stopped(f64),
+    Stopped,
     /// timer is running, started at `start_time`, will last for `duration` seconds
     Started {
         start_time: f64,
