@@ -1,7 +1,8 @@
 Now: implementing timer
 
-* pause/resume
-* reset (maybe redundant with choosing a time)
+* probably just full reset the timer when app is relaunched: always return to Stopped
+    * currently only resets if timer was running when app was closed
+    * how to detect TimerState at the moment app is relaunched?
 * choose a time
 
 ---
