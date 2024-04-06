@@ -2,7 +2,6 @@ Now: implementing timer
 
 * refine timer UI
     * follow mockup: Stopped page shows duration select, the rest show styled timer
-    * flip between pause/resume buttons
 * probably just full reset the timer when app is relaunched: always return to Stopped
     * currently only resets if timer was running when app was closed
     * how to detect TimerState at the moment app is relaunched?
