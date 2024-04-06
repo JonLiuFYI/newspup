@@ -2,6 +2,8 @@
 //! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
 //! SPDX-License-Identifier: AGPL-3.0-or-later
 
+use egui::DragValue;
+
 use crate::app::timer_state::TimerState;
 
 use super::NewspupApp;
@@ -15,6 +17,22 @@ impl NewspupApp {
             // timer setup screen
             TimerState::Stopped => {
                 ui.heading(format!("{:.1}", self.selected_duration));
+
+                ui.horizontal(|ui| {
+                    ui.add(
+                        DragValue::new(&mut self.timer_select_min)
+                            .clamp_range(0.0..=10.0)
+                            .speed(0.02)
+                            .max_decimals(0),
+                    );
+                    ui.label(":");
+                    ui.add(
+                        DragValue::new(&mut self.timer_select_sec)
+                            .clamp_range(0.0..=59.0)
+                            .speed(0.02)
+                            .max_decimals(0),
+                    );
+                });
 
                 if ui.button("3:00 — Frantic").clicked() {
                     self.selected_duration = 5.; // 180
