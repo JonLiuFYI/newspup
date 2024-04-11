@@ -29,7 +29,12 @@ impl NewspupApp {
                             .clamp_range(0.0..=3.0)
                             .speed(0.02)
                             .max_decimals(0)
-                            .custom_formatter(|s, _| format!("{:02}", s * TIMER_SEC_STEP)),
+                            .custom_formatter(|seconds, _| {
+                                format!("{:02}", seconds * TIMER_SEC_STEP)
+                            })
+                            .custom_parser(|inp| {
+                                inp.parse::<f64>().and_then(|s| Ok(s.div_euclid(15.))).ok()
+                            }),
                     );
                 });
 
