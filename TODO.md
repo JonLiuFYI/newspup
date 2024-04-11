@@ -1,10 +1,9 @@
 Now: implementing timer
 
-* time select screen
-    * make it big and centred
 * refine timer UI
-    * follow mockup: Stopped page shows duration select, the rest show styled timer
     * use version of Inter with tabulated numerals
+    * follow mockup: timer select
+    * follow mockup: timer started
 * probably just full reset the timer when app is relaunched: always return to Stopped
     * currently only resets if timer was running when app was closed
     * how to detect TimerState at the moment app is relaunched?
