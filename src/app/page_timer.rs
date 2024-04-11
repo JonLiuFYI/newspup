@@ -86,7 +86,11 @@ impl NewspupApp {
             }
 
             TimerState::Paused(seconds_remaining) => {
-                ui.heading(format!("{seconds_remaining:.1} (Paused)"));
+                let time_remaining: MinSec = seconds_remaining.into();
+                ui.heading(format!(
+                    "{}:{:04.1} (Paused)",
+                    time_remaining.min, time_remaining.sec
+                ));
 
                 if ui.button("Resume").clicked() {
                     if let TimerState::Paused(seconds_remaining) = self.timer_state {
@@ -102,6 +106,7 @@ impl NewspupApp {
             }
 
             TimerState::TimeUp => {
+                ui.heading("0:00.0");
                 ui.heading("Time's up!");
 
                 if ui.button("Reset").clicked() {
