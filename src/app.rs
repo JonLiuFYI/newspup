@@ -110,6 +110,10 @@ impl NewspupApp {
                 TextStyle::Small,
                 FontId::new(10.0, FontFamily::Proportional),
             ),
+            (
+                TextStyle::Name("Timer".into()),
+                FontId::new(60., FontFamily::Proportional),
+            ),
         ]
         .into();
         cc.egui_ctx.set_style(style);

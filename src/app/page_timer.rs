@@ -2,7 +2,7 @@
 //! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
 //! SPDX-License-Identifier: AGPL-3.0-or-later
 
-use egui::DragValue;
+use egui::{DragValue, RichText, TextStyle};
 
 use crate::{app::timer_state::TimerState, consts::TIMER_SEC_STEP};
 
@@ -71,10 +71,14 @@ impl NewspupApp {
                 let seconds_remaining = duration - timer_elapsed;
 
                 let time_remaining: MinSec = seconds_remaining.into();
-                ui.heading(format!(
-                    "{}:{:04.1}",
-                    time_remaining.min, time_remaining.sec
-                ));
+
+                ui.label(
+                    RichText::new(format!(
+                        "{}:{:04.1}",
+                        time_remaining.min, time_remaining.sec
+                    ))
+                    .text_style(TextStyle::Name("Timer".into())),
+                );
 
                 if seconds_remaining <= 0. {
                     self.timer_state = TimerState::TimeUp;
@@ -87,10 +91,14 @@ impl NewspupApp {
 
             TimerState::Paused(seconds_remaining) => {
                 let time_remaining: MinSec = seconds_remaining.into();
-                ui.heading(format!(
-                    "{}:{:04.1} (Paused)",
-                    time_remaining.min, time_remaining.sec
-                ));
+                ui.label(
+                    RichText::new(format!(
+                        "{}:{:04.1}",
+                        time_remaining.min, time_remaining.sec
+                    ))
+                    .text_style(TextStyle::Name("Timer".into()))
+                    .color(ui.visuals().warn_fg_color),
+                );
 
                 if ui.button("Resume").clicked() {
                     if let TimerState::Paused(seconds_remaining) = self.timer_state {
@@ -106,7 +114,7 @@ impl NewspupApp {
             }
 
             TimerState::TimeUp => {
-                ui.heading("0:00.0");
+                ui.label(RichText::new("0:00.0").text_style(TextStyle::Name("Timer".into())));
                 ui.heading("Time's up!");
 
                 if ui.button("Reset").clicked() {
