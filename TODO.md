@@ -1,7 +1,6 @@
 Now: implementing timer
 
 * refine timer UI
-    * use version of Inter with tabulated numerals
     * follow mockup: timer select
     * follow mockup: timer started
 * probably just full reset the timer when app is relaunched: always return to Stopped
