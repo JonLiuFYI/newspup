@@ -46,7 +46,8 @@ impl NewspupApp {
                 if ui.button("Start").clicked() {
                     self.timer_state = TimerState::Started {
                         start_time: app_time,
-                        duration: self.timer_select.into(),
+                        duration: self.timer_select.min * 60.
+                            + self.timer_select.sec * TIMER_SEC_STEP,
                     };
                     dbg!(self.timer_state);
                 }
@@ -63,9 +64,12 @@ impl NewspupApp {
 
                 let timer_elapsed = app_time - start_time;
                 let seconds_remaining = duration - timer_elapsed;
-                let time_remaining: MinSec = seconds_remaining.into();
 
-                ui.heading(format!("{}:{:04.1}", time_remaining.min, time_remaining.sec));
+                let time_remaining: MinSec = seconds_remaining.into();
+                ui.heading(format!(
+                    "{}:{:04.1}",
+                    time_remaining.min, time_remaining.sec
+                ));
 
                 if seconds_remaining <= 0. {
                     self.timer_state = TimerState::TimeUp;
