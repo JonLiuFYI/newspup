@@ -1,4 +1,4 @@
-//! Start/stop state of the timer on the timer page
+//! Timer state and data
 //! This file is part of Newspup. Copyright © 2023-2024 JonLiuFYI
 //! SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -14,4 +14,10 @@ pub enum TimerState {
     /// timer is paused; remembers seconds remaining when timer was paused
     Paused(f64),
     TimeUp,
+}
+
+#[derive(serde::Deserialize, serde::Serialize, PartialEq, Copy, Clone, Debug)]
+pub struct MinSec {
+    pub min: f64,
+    pub sec: f64,
 }

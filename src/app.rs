@@ -14,7 +14,11 @@ use egui::{
     CentralPanel, FontData, FontDefinitions, FontFamily, FontId, Layout, TextStyle, TopBottomPanel,
 };
 
-use self::{app_state::CurrentRoundSubpage, score_models::Scoreboard, timer_state::TimerState};
+use self::{
+    app_state::CurrentRoundSubpage,
+    score_models::Scoreboard,
+    timer_state::{MinSec, TimerState},
+};
 use crate::consts::MAX_PLAYERS;
 use app_state::{NewspupPage, Round};
 
@@ -30,8 +34,7 @@ pub struct NewspupApp {
 
     // timer
     timer_state: TimerState,
-    timer_select_min: f64,
-    timer_select_sec: f64,
+    timer_select: MinSec,
 }
 
 impl Default for NewspupApp {
@@ -51,8 +54,7 @@ impl Default for NewspupApp {
             ],
             subpage: CurrentRoundSubpage::default(),
             timer_state: TimerState::Stopped,
-            timer_select_min: 4.,
-            timer_select_sec: 0.,
+            timer_select: MinSec { min: 4., sec: 0. },
         }
     }
 }

@@ -1,13 +1,11 @@
 Now: implementing timer
 
-* make a Timer struct to hold timer data?
 * time select screen
     * drag seconds in steps of 5 or 15 seconds
     * make it big and centred
-    * make preset buttons set dragvalues
-    * pressing start locks in selected min and sec, calculated into selected_duration
 * refine timer UI
     * follow mockup: Stopped page shows duration select, the rest show styled timer
+    * use version of Inter with tabulated numerals
 * probably just full reset the timer when app is relaunched: always return to Stopped
     * currently only resets if timer was running when app was closed
     * how to detect TimerState at the moment app is relaunched?

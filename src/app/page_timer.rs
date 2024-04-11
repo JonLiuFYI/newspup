@@ -6,7 +6,7 @@ use egui::DragValue;
 
 use crate::app::timer_state::TimerState;
 
-use super::NewspupApp;
+use super::{timer_state::MinSec, NewspupApp};
 
 impl NewspupApp {
     pub(crate) fn page_timer(&mut self, ui: &mut egui::Ui) {
@@ -18,14 +18,14 @@ impl NewspupApp {
             TimerState::Stopped => {
                 ui.horizontal(|ui| {
                     ui.add(
-                        DragValue::new(&mut self.timer_select_min)
+                        DragValue::new(&mut self.timer_select.min)
                             .clamp_range(0.0..=10.0)
                             .speed(0.02)
                             .max_decimals(0),
                     );
                     ui.label(":");
                     ui.add(
-                        DragValue::new(&mut self.timer_select_sec)
+                        DragValue::new(&mut self.timer_select.sec)
                             .clamp_range(0.0..=59.0)
                             .speed(0.02)
                             .max_decimals(0),
@@ -33,22 +33,19 @@ impl NewspupApp {
                 });
 
                 if ui.button("3:00 — Frantic").clicked() {
-                    self.timer_select_min = 3.;
-                    self.timer_select_sec = 0.;
+                    self.timer_select = MinSec { min: 3., sec: 0. };
                 }
                 if ui.button("4:00 — Standard").clicked() {
-                    self.timer_select_min = 4.;
-                    self.timer_select_sec = 0.;
+                    self.timer_select = MinSec { min: 4., sec: 0. };
                 }
                 if ui.button("5:00 — Relaxed").clicked() {
-                    self.timer_select_min = 5.;
-                    self.timer_select_sec = 0.;
+                    self.timer_select = MinSec { min: 5., sec: 0. };
                 }
 
                 if ui.button("Start").clicked() {
                     self.timer_state = TimerState::Started {
                         start_time: app_time,
-                        duration: self.timer_select_min * 60. + self.timer_select_sec,
+                        duration: self.timer_select.min * 60. + self.timer_select.sec,
                     };
                     dbg!(self.timer_state);
                 }
