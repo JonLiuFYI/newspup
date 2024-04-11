@@ -16,8 +16,6 @@ impl NewspupApp {
         match self.timer_state {
             // timer setup screen
             TimerState::Stopped => {
-                ui.heading(format!("{:.1}", self.selected_duration));
-
                 ui.horizontal(|ui| {
                     ui.add(
                         DragValue::new(&mut self.timer_select_min)
@@ -35,19 +33,22 @@ impl NewspupApp {
                 });
 
                 if ui.button("3:00 — Frantic").clicked() {
-                    self.selected_duration = 5.; // 180
+                    self.timer_select_min = 3.;
+                    self.timer_select_sec = 0.;
                 }
                 if ui.button("4:00 — Standard").clicked() {
-                    self.selected_duration = 10.; // 240
+                    self.timer_select_min = 4.;
+                    self.timer_select_sec = 0.;
                 }
                 if ui.button("5:00 — Relaxed").clicked() {
-                    self.selected_duration = 15.; // 300
+                    self.timer_select_min = 5.;
+                    self.timer_select_sec = 0.;
                 }
 
                 if ui.button("Start").clicked() {
                     self.timer_state = TimerState::Started {
                         start_time: app_time,
-                        duration: self.selected_duration,
+                        duration: self.timer_select_min * 60. + self.timer_select_sec,
                     };
                     dbg!(self.timer_state);
                 }

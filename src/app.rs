@@ -30,7 +30,6 @@ pub struct NewspupApp {
 
     // timer
     timer_state: TimerState,
-    selected_duration: f64,
     timer_select_min: f64,
     timer_select_sec: f64,
 }
@@ -52,7 +51,6 @@ impl Default for NewspupApp {
             ],
             subpage: CurrentRoundSubpage::default(),
             timer_state: TimerState::Stopped,
-            selected_duration: 240.,
             timer_select_min: 4.,
             timer_select_sec: 0.,
         }
