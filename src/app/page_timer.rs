@@ -4,7 +4,7 @@
 
 use egui::DragValue;
 
-use crate::app::timer_state::TimerState;
+use crate::{app::timer_state::TimerState, consts::TIMER_SEC_STEP};
 
 use super::{timer_state::MinSec, NewspupApp};
 
@@ -26,9 +26,10 @@ impl NewspupApp {
                     ui.label(":");
                     ui.add(
                         DragValue::new(&mut self.timer_select.sec)
-                            .clamp_range(0.0..=59.0)
+                            .clamp_range(0.0..=3.0)
                             .speed(0.02)
-                            .max_decimals(0),
+                            .max_decimals(0)
+                            .custom_formatter(|s, _| format!("{:02}", s * TIMER_SEC_STEP)),
                     );
                 });
 
@@ -45,7 +46,8 @@ impl NewspupApp {
                 if ui.button("Start").clicked() {
                     self.timer_state = TimerState::Started {
                         start_time: app_time,
-                        duration: self.timer_select.min * 60. + self.timer_select.sec,
+                        duration: self.timer_select.min * 60.
+                            + self.timer_select.sec * TIMER_SEC_STEP,
                     };
                     dbg!(self.timer_state);
                 }

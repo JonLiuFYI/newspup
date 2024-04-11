@@ -34,6 +34,7 @@ pub struct NewspupApp {
 
     // timer
     timer_state: TimerState,
+    /// NOTE: .sec field is multiplied by a step size
     timer_select: MinSec,
 }
 

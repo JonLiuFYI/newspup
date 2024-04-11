@@ -1,7 +1,6 @@
 Now: implementing timer
 
 * time select screen
-    * drag seconds in steps of 5 or 15 seconds
     * make it big and centred
 * refine timer UI
     * follow mockup: Stopped page shows duration select, the rest show styled timer
