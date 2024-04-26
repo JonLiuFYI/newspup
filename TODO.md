@@ -1,5 +1,9 @@
 Now: implementing timer
 
+* automate cargo-about licensing info (in CI?)
+* clean up README
+
+* figure out proper MinSec semantics. The fifteen-second steps should probably use their own struct instead of "abusing" MinSec
 * refine timer UI
     * follow mockup: timer select
     * follow mockup: timer started
@@ -16,29 +20,14 @@ Now: implementing timer
     * dep injection or strategy pattern? Or just grab num_players at runtime?
     * So far, implemented the rules for 2p and 1p, but actually handling 2p might need a rework. While 3+p eliminates on Sunday, 2p applies a -10 pt penalty, which should be calculated in the model, not just calced on the spot in the score UI. For now, app is limited to 3p.
     * don't forget to allow selecting 1 and 2 players
-* automate cargo-about licensing info (in CI?)
-* link to Newspup source
 * deploy
 
 * code cleanup
-* Sunday page declares winner
 
 ## Gather licensing info before release
 https://github.com/embarkstudios/cargo-about
 
     cargo about generate about.hbs -o licenses.html
-
-## (name, ScoreColumn) iteration
-Manual way of iterating over a round's Vec as (name, ScoreColumn). Can I roll this into a trait to make it more ergonomic?
-
-```
-self.names
-    .iter()
-    .zip(self.scores[round].iter())
-    .for_each(|(n, sc)| {
-        todo!();
-    });
-```
 
 ## Scorecard sections
 📰📷🌟⛶😿❎💰🏆
